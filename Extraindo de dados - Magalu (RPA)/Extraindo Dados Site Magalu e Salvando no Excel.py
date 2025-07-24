@@ -50,7 +50,9 @@ listaProdutos = navegador.find_elements(By.CLASS_NAME, 'jVLgjd')
 
 for i in listaProdutos: #i = item
     nomeProduto = ""
-    precoProduto = "" 
+    precoOriginal = "" 
+    precoParcelado = ""
+    precoPix = ""
     urlProduto = ""
 
     if nomeProduto == "":
@@ -76,7 +78,7 @@ for i in listaProdutos: #i = item
 
    #----------------------------------------------------------------------------------------------------------------------------
 
-    if precoProduto == "":
+    if precoOriginal == "":
 
             try:
                 #Será usado a classe porque é o identificador que o item possui no site para podermos usar aqui
@@ -84,33 +86,109 @@ for i in listaProdutos: #i = item
                 #clique no preço do primeiro item para ser direcionado para o item no codigo e copie o nome da classe
                 #no caso é uma classe com 4 nomes (class="sc-dcJsrY lmAmKF sc-cezyBN fATncB"), aqui vamos usar só o nome 'PdLos'
 
-                precoProduto = i.find_element(By.CLASS_NAME, "fATncB").text
+                precoOriginal = i.find_element(By.CLASS_NAME, "fATncB").text
             except Exception:
                 pass
 
-    elif precoProduto == "":
+    elif precoOriginal == "":
 
             try:
                 #Se os dados não estiverem no primeiro nome da classe, podem estar no segundo (usado aqui)
-                precoProduto = i.find_element(By.CLASS_NAME, "sc-cezyBN").text
+                precoOriginal = i.find_element(By.CLASS_NAME, "sc-cezyBN").text
             except Exception:
                 pass
-    elif precoProduto == "":
+    elif precoOriginal == "":
 
             try:
                 #Se os dados não estiverem no primeiro e segundo nome da classe, podem estar no terceiro (usado aqui)
-                precoProduto = i.find_element(By.CLASS_NAME, "lmAmKF").text
+                precoOriginal = i.find_element(By.CLASS_NAME, "lmAmKF").text
             except Exception:
                 pass
-    elif precoProduto == "":
+    elif precoOriginal == "":
 
             try:
                 #Se os dados não estiverem no primeiro, segundo ou terceiro nome da classe, podem estar no ultimo (usado aqui)
-                precoProduto = i.find_element(By.CLASS_NAME, "sc-dcJsrY").text
+                precoOriginal = i.find_element(By.CLASS_NAME, "sc-dcJsrY").text
             except Exception:
                 pass
     else: 
-         precoProduto = "0"
+         precoOriginal = "0"
+
+   #---------------------------------------------------------------------------------------------------------------------------- 
+
+    if precoParcelado == "":
+
+            try:
+                #Será usado a classe porque é o identificador que o item possui no site para podermos usar aqui
+                #Ainda com o site aberto e a aba de desenvolvedor aberta, e ainda no modo de encontrar elementos pelo mouse,
+                #clique no preço do primeiro item para ser direcionado para o item no codigo e copie o nome da classe
+                #no caso é uma classe com 4 nomes (class="sc-dcJsrY dpUJi sc-bkEOxz cVhpkc"), aqui vamos usar só o nome 'PdLos'
+
+                precoParcelado = i.find_element(By.CLASS_NAME, "cVhpkc").text
+            except Exception:
+                pass
+
+    elif precoParcelado == "":
+
+            try:
+                #Se os dados não estiverem no primeiro nome da classe, podem estar no segundo (usado aqui)
+                precoParcelado = i.find_element(By.CLASS_NAME, "sc-bkEOxz").text
+            except Exception:
+                pass
+    elif precoParcelado == "":
+
+            try:
+                #Se os dados não estiverem no primeiro e segundo nome da classe, podem estar no terceiro (usado aqui)
+                precoParcelado = i.find_element(By.CLASS_NAME, "dpUJi").text
+            except Exception:
+                pass
+    elif precoParcelado == "":
+
+            try:
+                #Se os dados não estiverem no primeiro, segundo ou terceiro nome da classe, podem estar no ultimo (usado aqui)
+                precoParcelado = i.find_element(By.CLASS_NAME, "sc-dcJsrY").text
+            except Exception:
+                pass
+    else: 
+         precoParcelado = "0"
+
+   #---------------------------------------------------------------------------------------------------------------------------- 
+
+    if precoPix == "":
+
+            try:
+                #Será usado a classe porque é o identificador que o item possui no site para podermos usar aqui
+                #Ainda com o site aberto e a aba de desenvolvedor aberta, e ainda no modo de encontrar elementos pelo mouse,
+                #clique no preço do primeiro item para ser direcionado para o item no codigo e copie o nome da classe
+                #no caso é uma classe com 4 nomes (class="sc-dcJsrY eLxcFM sc-cXPBUD hAtJoE"), aqui vamos usar só o nome 'PdLos'
+
+                precoPix = i.find_element(By.CLASS_NAME, "hAtJoE").text
+            except Exception:
+                pass
+
+    elif precoPix == "":
+
+            try:
+                #Se os dados não estiverem no primeiro nome da classe, podem estar no segundo (usado aqui)
+                precoPix = i.find_element(By.CLASS_NAME, "sc-cXPBUD").text
+            except Exception:
+                pass
+    elif precoPix == "":
+
+            try:
+                #Se os dados não estiverem no primeiro e segundo nome da classe, podem estar no terceiro (usado aqui)
+                precoPix = i.find_element(By.CLASS_NAME, "eLxcFM").text
+            except Exception:
+                pass
+    elif precoPix == "":
+
+            try:
+                #Se os dados não estiverem no primeiro, segundo ou terceiro nome da classe, podem estar no ultimo (usado aqui)
+                precoPix = i.find_element(By.CLASS_NAME, "sc-dcJsrY").text
+            except Exception:
+                pass
+    else: 
+         precoPix = "0"
 
    #---------------------------------------------------------------------------------------------------------------------------- 
 
@@ -128,13 +206,17 @@ for i in listaProdutos: #i = item
     else:
         urlProduto = "-"
 
-    print(nomeProduto, "-", precoProduto)
-    print(urlProduto)
+    print('\n ------------------------------------------------------------------------ \n')
+    print('Produto:', nomeProduto)
+    print('Preço Original:', precoOriginal)
+    print('Preço Parcelado com desconto:', precoParcelado)
+    print('Preço no Pix com desconto:', precoPix)
+    print('Link:', urlProduto)
 
     #o ";" será o delimitador para poder tratar a linha para colunas no excel
     #Versão usada na aula (vinha tudo em uma linha) -> dadosLinha = nomeProduto + ";" + precoProduto + ";"+ urlProduto
     #Minha versão melhorada para já trazer cada dado em sua devida coluna ↓
-    dadosLinha = [nomeProduto, precoProduto, urlProduto]
+    dadosLinha = [nomeProduto, precoOriginal, precoParcelado, precoPix, urlProduto]
 
     #Populando o dataFrame com os dados do site
     listaDataFrame.append(dadosLinha)
@@ -152,7 +234,7 @@ arquivoExcel = pd.ExcelWriter(caminho_completo, engine='xlsxwriter')
 #Cria um dataframe que recebe a lista que foi incrementada com as linhas obtidas do site, com o cabeçalho das colunas = 'Descrição;Preço;Url' (";" para tratar a linha para colunas no Excel)
 #Versão usada na aula (vinha tudo em uma linha) -> dataFrame = pd.DataFrame(listaDataFrame, columns=['Descrição;Preço;Url'])
 #Minha versão melhorada para já trazer cada dado em sua devida coluna ↓
-dataFrame = pd.DataFrame(listaDataFrame, columns=['Descrição', 'Preço', 'URL'])
+dataFrame = pd.DataFrame(listaDataFrame, columns=['Descrição', 'Preço Original', 'Preço Parcelado com Desconto', 'Preço no Pix', 'URL'])
 
 #Escreve no excel o dataframe carregado com a lista, no formato da variavel 'arquivoExcel' e com o nome da planilha 'Dados Extraidos do Site'
 dataFrame.to_excel(arquivoExcel, sheet_name='Dados Extraidos do Site', index=False) #index = True autorizaria adicionar uma coluna de índice a esquerda (0,1,2,3...)
@@ -160,5 +242,8 @@ dataFrame.to_excel(arquivoExcel, sheet_name='Dados Extraidos do Site', index=Fal
 # Fecha o arquivo
 arquivoExcel.close()
 
+print('\n --------------------------------------------------------------------------------------------------------------------------- \n')
+print('Dados extraídos com sucesso e salvos no arquivo:', caminho_completo)
+print('\n --------------------------------------------------------------------------------------------------------------------------- \n')
 
 #input("Pressione Enter para fechar...")
